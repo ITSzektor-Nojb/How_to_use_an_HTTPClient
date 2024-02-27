@@ -10,8 +10,11 @@ namespace How_to_use_an_HTTPClient
             var builder = WebApplication.CreateBuilder(args);
 
             builder.Services.AddControllers();
-            builder.Services.AddSingleton<IWeatherClient, OpenWeatherClient>();
 
+            builder.Services.AddHttpClient<IWeatherClient, OpenWeatherClient>(client =>
+            {
+                client.BaseAddress = new Uri("https://api.openweathermap.org/data/2.5/");
+            });
 
             builder.Services.AddEndpointsApiExplorer();
             builder.Services.AddSwaggerGen();

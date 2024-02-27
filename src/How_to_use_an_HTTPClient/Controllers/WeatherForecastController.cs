@@ -8,15 +8,17 @@ namespace How_to_use_an_HTTPClient.Controllers
     [Route("[controller]")]
     public class WeatherForecastController : ControllerBase
     {
-        public WeatherForecastController()
+        private readonly IWeatherClient _weatherClient;
+
+        public WeatherForecastController(IWeatherClient weatherClient)
         {
+            _weatherClient = weatherClient;
         }
 
         [HttpGet]
         public async Task<WeatherResponse?> Get(string city)
         {
-            var client = new OpenWeatherClient();
-            return await client.GetCurrentWeatherForCity(city);
+            return await _weatherClient.GetCurrentWeatherForCity(city);
         }
     }
 }
