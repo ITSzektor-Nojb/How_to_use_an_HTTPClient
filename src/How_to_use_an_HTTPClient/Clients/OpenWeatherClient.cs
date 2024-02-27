@@ -6,17 +6,19 @@ namespace How_to_use_an_HTTPClient.Clients
     {
         private const string OpenWeatherMapApiKey = "a96e82d421fbd096abf36e26d30944e5";
 
-        private readonly HttpClient _httpClient;
+        private readonly IHttpClientFactory _httpClientFactory;
 
-        public OpenWeatherClient(HttpClient httpClient)
+        public OpenWeatherClient(IHttpClientFactory httpClientFactory)
         {
-            _httpClient = httpClient;
+            _httpClientFactory = httpClientFactory;
         }
 
         public async Task<WeatherResponse?> GetCurrentWeatherForCity(string city)
         {
+            var client = _httpClientFactory.CreateClient("weatherApi");
+
             return
-                await _httpClient.GetFromJsonAsync<WeatherResponse?>(
+                await client.GetFromJsonAsync<WeatherResponse?>(
                     $"weather?q={city}&appid={OpenWeatherMapApiKey}&units=metric");
         }
     }

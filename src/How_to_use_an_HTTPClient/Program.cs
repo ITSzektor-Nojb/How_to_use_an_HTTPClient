@@ -1,4 +1,3 @@
-
 using How_to_use_an_HTTPClient.Clients;
 
 namespace How_to_use_an_HTTPClient
@@ -11,7 +10,8 @@ namespace How_to_use_an_HTTPClient
 
             builder.Services.AddControllers();
 
-            builder.Services.AddHttpClient<IWeatherClient, OpenWeatherClient>(client =>
+            builder.Services.AddTransient<IWeatherClient, OpenWeatherClient>();
+            builder.Services.AddHttpClient("weatherApi", client =>
             {
                 client.BaseAddress = new Uri("https://api.openweathermap.org/data/2.5/");
             });
